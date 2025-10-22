@@ -7,10 +7,9 @@ if (!uri) {
   throw new Error("Please define the MONGODB_URI environment variable in .env.local");
 }
 
-// אפשרויות חיבור עם תמיכה ב-TLS
 const options: MongoClientOptions = {
   tls: true,
-  tlsAllowInvalidCertificates: true, // זמני - להסיר בפרודקשן
+  tlsAllowInvalidCertificates: true, 
   serverSelectionTimeoutMS: 10000,
   socketTimeoutMS: 45000,
 };
