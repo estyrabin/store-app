@@ -1,11 +1,19 @@
 // src/lib/mongo.ts
-import { MongoClient, Db } from "mongodb";
+import { MongoClient, Db, MongoClientOptions } from "mongodb";
 
 const uri: string | undefined = process.env.MONGODB_URI;
 
 if (!uri) {
   throw new Error("Please define the MONGODB_URI environment variable in .env.local");
 }
+
+// אפשרויות חיבור עם תמיכה ב-TLS
+const options: MongoClientOptions = {
+  tls: true,
+  tlsAllowInvalidCertificates: true, // זמני - להסיר בפרודקשן
+  serverSelectionTimeoutMS: 10000,
+  socketTimeoutMS: 45000,
+};
 
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
@@ -16,12 +24,12 @@ declare global {
 
 if (process.env.NODE_ENV === "development") {
   if (!global._mongoClientPromise) {
-    client = new MongoClient(uri);
+    client = new MongoClient(uri, options);
     global._mongoClientPromise = client.connect();
   }
   clientPromise = global._mongoClientPromise;
 } else {
-  client = new MongoClient(uri);
+  client = new MongoClient(uri, options);
   clientPromise = client.connect();
 }
 
