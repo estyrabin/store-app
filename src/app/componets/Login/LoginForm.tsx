@@ -24,7 +24,7 @@ export default function LoginForm() {
   const [formError, setFormError] = useState('');
 
   const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false); // נלחץ הכפתור?
+  const [submitted, setSubmitted] = useState(false);
 
   const onEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const v = e.target.value;
