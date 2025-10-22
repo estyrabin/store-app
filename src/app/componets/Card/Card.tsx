@@ -5,7 +5,7 @@ type CardProps = {
   description: string;
   price: number | string;
   image: string;
-  type?: string;
+  type: string;
   category?: string;
 };
 

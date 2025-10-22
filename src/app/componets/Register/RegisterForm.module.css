@@ -6,8 +6,6 @@
   background: #ede7d2;
 }
 
-
-
 .card {
   background: var(--background, #fff);
   border-radius: 1.2rem;

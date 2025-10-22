@@ -55,6 +55,5 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: false, errors }, { status: 400 });
   }
 
-  // Mock: pretend user was saved
   return NextResponse.json({ success: true, message: "נרשמת בהצלחה!" }, { status: 200 });
 }

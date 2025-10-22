@@ -1,4 +1,3 @@
-// src/lib/mongo.ts
 import { MongoClient, Db, MongoClientOptions } from "mongodb";
 
 const uri: string | undefined = process.env.MONGODB_URI;

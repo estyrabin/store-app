@@ -18,11 +18,9 @@ export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // שגיאות שדה
   const [emailErr, setEmailErr] = useState('');
   const [passwordErr, setPasswordErr] = useState('');
 
-  // שגיאת שרת/רשת כללית
   const [formError, setFormError] = useState('');
 
   const [loading, setLoading] = useState(false);
@@ -68,8 +66,6 @@ export default function LoginForm() {
       } else {
         setFormError('');
         alert('התחברת בהצלחה!');
-        // אפשר כאן לבצע redirect אם תרצי, למשל:
-        // window.location.href = '/dashboard';
       }
     } catch {
       setFormError('שגיאת רשת');
