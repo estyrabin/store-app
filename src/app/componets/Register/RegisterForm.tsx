@@ -94,39 +94,41 @@ export default function RegisterForm() {
   const showErr = (err: string, value: string) => (submitted || value) && err;
 
   return (
-    <div className={styles.card}>
-      <h2 className={styles.title}>טופס הרשמה</h2>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <label htmlFor="fullName" className={styles.label}>שם מלא</label>
-        <input id="fullName" type="text" className={styles.input} value={fullName} onChange={handleFullName} />
-        {showErr(fullNameErr, fullName) && <div className={styles.error}>{fullNameErr}</div>}
+    <div className= {styles.centeredPage}>
+      <div className={styles.card}>
+        <h2 className={styles.title}>טופס הרשמה</h2>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <label htmlFor="fullName" className={styles.label}>שם מלא</label>
+          <input id="fullName" type="text" className={styles.input} value={fullName} onChange={handleFullName} />
+          {showErr(fullNameErr, fullName) && <div className={styles.error}>{fullNameErr}</div>}
 
-        <label htmlFor="phone" className={styles.label}>טלפון</label>
-        <input id="phone" type="text" className={styles.input} value={phone} onChange={handlePhone} />
-        {showErr(phoneErr, phone) && <div className={styles.error}>{phoneErr}</div>}
+          <label htmlFor="phone" className={styles.label}>טלפון</label>
+          <input id="phone" type="text" className={styles.input} value={phone} onChange={handlePhone} />
+          {showErr(phoneErr, phone) && <div className={styles.error}>{phoneErr}</div>}
 
-        <label htmlFor="email" className={styles.label}>אימייל</label>
-        <input id="email" type="email" className={styles.input} value={email} onChange={handleEmail} />
-        {showErr(emailErr, email) && <div className={styles.error}>{emailErr}</div>}
+          <label htmlFor="email" className={styles.label}>אימייל</label>
+          <input id="email" type="email" className={styles.input} value={email} onChange={handleEmail} />
+          {showErr(emailErr, email) && <div className={styles.error}>{emailErr}</div>}
 
-        <label htmlFor="dob" className={styles.label}>תאריך לידה</label>
-        <input id="dob" type="date" className={styles.input} value={dob} onChange={handleDob} />
-        {showErr(dobErr, dob) && <div className={styles.error}>{dobErr}</div>}
+          <label htmlFor="dob" className={styles.label}>תאריך לידה</label>
+          <input id="dob" type="date" className={styles.input} value={dob} onChange={handleDob} />
+          {showErr(dobErr, dob) && <div className={styles.error}>{dobErr}</div>}
 
-        <button className={styles.button} type="submit" disabled={loading}>
-          {loading ? 'בתהליך...' : 'הרשם'}
-        </button>
-      </form>
+          <button className={styles.button} type="submit" disabled={loading}>
+            {loading ? 'בתהליך...' : 'הרשם'}
+          </button>
+        </form>
 
-      {submitMsg && (
-        <div className={submitMsg.includes('בהצלחה') ? styles.success : styles.error}>
-          {submitMsg}
+        {submitMsg && (
+          <div className={submitMsg.includes('בהצלחה') ? styles.success : styles.error}>
+            {submitMsg}
+          </div>
+        )}
+
+
+        <div className={styles.logLink}>
+          איש לך חשבון? <a href="/login">התחברות</a>
         </div>
-      )}
-
-
-       <div className={styles.logLink}>
-        איש לך חשבון? <a href="/login">התחברות</a>
       </div>
     </div>
   );
