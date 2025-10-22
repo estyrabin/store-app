@@ -1,0 +1,80 @@
+.centeredPage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ede7d2;
+}
+
+
+.card {
+  background: var(--background, #fff);
+  border-radius: 1.2rem;
+  box-shadow: 0 2px 16px rgba(62,92,55,0.09);
+  border: 1px solid #dfdccb;
+  min-width: 320px;
+  max-width: 420px;
+  width: 100%;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  width: 100%;
+}
+
+.label {
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+.input {
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  border: 1.5px solid #3e5c37;
+  font-size: 17px;
+  margin-bottom: 2px;
+}
+.button {
+  padding: 0.8rem 0;
+  border-radius: 8px;
+  background: #3e5c37;
+  color: #fff;
+  font-weight: 700;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  margin-top: 5px;
+  transition: opacity 0.2s;
+}
+.button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+.error {
+  color: crimson;
+  font-size: 15px;
+  margin-bottom: 4px;
+  margin-top: 2px;
+  text-align: right;
+}
+.registerLink {
+  margin-top: 14px;
+  text-align: center;
+}
+.registerLink a {
+  color: #3e5c37;
+  text-decoration: underline;
+  font-weight: 500;
+}
+.title{
+  text-align: center;
+  margin-bottom: 16px;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
