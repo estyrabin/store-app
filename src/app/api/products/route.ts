@@ -7,7 +7,6 @@ export async function GET() {
     const products = await db.collection("products").find().toArray();
     return NextResponse.json(products, { status: 200 });
   } catch (err) {
-    console.error("GET /api/products error:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

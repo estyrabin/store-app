@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import styles from './RegisterForm.module.css';
+import { fetcRegister } from '@/app/services/client/register';
 
 function validateFullName(name: string) {
   const words = name.trim().split(/\s+/);
@@ -18,10 +19,20 @@ function validateEmail(email: string) {
 }
 function validateDob(dob: string) {
   if (!dob) return 'יש להזין תאריך לידה';
-  const d = new Date(dob); const now = new Date();
+  const d = new Date(dob);
+  const now = new Date();
   const age = now.getFullYear() - d.getFullYear();
-  const over18 = age > 18 || (age === 18 && (now.getMonth() > d.getMonth() || (now.getMonth() === d.getMonth() && now.getDate() >= d.getDate())));
+  const over18 =
+    age > 18 ||
+    (age === 18 &&
+      (now.getMonth() > d.getMonth() ||
+        (now.getMonth() === d.getMonth() && now.getDate() >= d.getDate())));
   if (!over18) return 'חייבים להיות מעל גיל 18';
+  return '';
+}
+function validatePassword(password: string) {
+  if (!password) return 'יש להזין סיסמה';
+  if (password.length < 6) return 'הסיסמה חייבת להכיל לפחות 6 תווים';
   return '';
 }
 
@@ -30,14 +41,15 @@ export default function RegisterForm() {
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [dob, setDob] = useState('');
+  const [password, setPassword] = useState('');
 
   const [fullNameErr, setFullNameErr] = useState('');
   const [phoneErr, setPhoneErr] = useState('');
   const [emailErr, setEmailErr] = useState('');
   const [dobErr, setDobErr] = useState('');
+  const [passwordErr, setPasswordErr] = useState('');
   const [submitMsg, setSubmitMsg] = useState('');
   const [loading, setLoading] = useState(false);
-
   const [submitted, setSubmitted] = useState(false);
 
   function handleFullName(e: React.ChangeEvent<HTMLInputElement>) {
@@ -60,6 +72,11 @@ export default function RegisterForm() {
     setDob(v);
     setDobErr(validateDob(v));
   }
+  function handlePassword(e: React.ChangeEvent<HTMLInputElement>) {
+    const v = e.target.value;
+    setPassword(v);
+    setPasswordErr(validatePassword(v));
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -68,22 +85,29 @@ export default function RegisterForm() {
     const pe = validatePhone(phone);
     const ee = validateEmail(email);
     const de = validateDob(dob);
-    setFullNameErr(fe); setPhoneErr(pe); setEmailErr(ee); setDobErr(de);
+    const pa = validatePassword(password);
+    setFullNameErr(fe);
+    setPhoneErr(pe);
+    setEmailErr(ee);
+    setDobErr(de);
+    setPasswordErr(pa);
     setSubmitMsg('');
-    if (fe || pe || ee || de) return;
+    if (fe || pe || ee || de || pa) return;
 
     setLoading(true);
     try {
-      const res = await fetch('/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fullName, phone, email, dob })
-      });
-      const data = await res.json();
-      if (res.ok && data.success) {
-        setSubmitMsg(data.message || 'נרשמת בהצלחה!');
+
+      const data = await fetcRegister(fullName, phone, email, password, dob);
+      if (!data.success) {
+        setSubmitMsg(data.message || 'שגיאה בהרשמה!');
       } else {
-        setSubmitMsg(data.errors ? Object.values(data.errors).join(' | ') : (data.message || 'שגיאה'));
+        setSubmitMsg(data.message ||'הרשמה בוצעה בהצלחה! ניתן להתחבר כעת.');
+        setFullName('');
+        setPhone('');
+        setEmail('');
+        setDob('');
+        setPassword('');
+        setSubmitted(false);
       }
     } catch {
       setSubmitMsg('שגיאת רשת');
@@ -91,10 +115,11 @@ export default function RegisterForm() {
       setLoading(false);
     }
   }
+
   const showErr = (err: string, value: string) => (submitted || value) && err;
 
   return (
-    <div className= {styles.centeredPage}>
+    <div className={styles.centeredPage}>
       <div className={styles.card}>
         <h2 className={styles.title}>טופס הרשמה</h2>
         <form className={styles.form} onSubmit={handleSubmit}>
@@ -114,6 +139,10 @@ export default function RegisterForm() {
           <input id="dob" type="date" className={styles.input} value={dob} onChange={handleDob} />
           {showErr(dobErr, dob) && <div className={styles.error}>{dobErr}</div>}
 
+          <label htmlFor="password" className={styles.label}>סיסמה</label>
+          <input id="password" type="password" className={styles.input} value={password} onChange={handlePassword} />
+          {showErr(passwordErr, password) && <div className={styles.error}>{passwordErr}</div>}
+
           <button className={styles.button} type="submit" disabled={loading}>
             {loading ? 'בתהליך...' : 'הרשם'}
           </button>
@@ -124,7 +153,6 @@ export default function RegisterForm() {
             {submitMsg}
           </div>
         )}
-
 
         <div className={styles.logLink}>
           איש לך חשבון? <a href="/login">התחברות</a>

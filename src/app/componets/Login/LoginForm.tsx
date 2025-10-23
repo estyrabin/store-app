@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import styles from './LoginForm.module.css';
+import { fetchLogin } from '@/app/services/client/login';
 
 function validateEmail(email: string) {
   if (!email) return 'נא להזין אימייל';
@@ -54,14 +55,9 @@ export default function LoginForm() {
 
     setLoading(true);
     try {
-      const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await res.json();
+      const data = await fetchLogin(email, password);
 
-      if (!res.ok || !data.success) {
+      if (!data.success) {
         setFormError(data.message || 'שגיאה בהתחברות');
       } else {
         setFormError('');
